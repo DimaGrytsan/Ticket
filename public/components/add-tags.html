@@ -1,0 +1,46 @@
+<md-dialog aria-label="Add task" flex="30" flex-xs="90">
+
+    <form name="addTagForm" ng-cloak novalidate>
+        <md-toolbar class="toolbar-custom">
+            <div class="md-toolbar-tools">
+                <h2>ADD TAG</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" flex layout-align="row">
+
+                <md-input-container flex layout="column">
+                    <label>Tag name</label>
+                    <input type="text" ng-model="tagName" required>
+                    <div ng-messages="addTagForm.tagName.$error">
+                        <div ng-message="required">Required field!</div>
+                    </div>
+                </md-input-container>
+
+
+                <md-select aria-label="Tag color" ng-model="tagColor" required>
+                    <md-option selected="$first" ng-repeat="color in colors" ng-value="color">
+                        <md-icon md-colors="::{'color': 'altTheme-{{color}}-700'}">fiber_manual_record</md-icon> {{color}}
+                    </md-option>
+                </md-select>
+            </div>
+
+            <div layout="row">
+                <span flex></span>
+                <md-button ng-click="hide()">
+                    cancel
+                </md-button>
+                <md-button type="submit" ng-click="addTag(addTagForm.$valid, tagName, tagColor)">
+                    add
+                </md-button>
+            </div>
+
+        </md-dialog-content>
+    </form>
+
+</md-dialog>

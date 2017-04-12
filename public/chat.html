@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>General services</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="vendor/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="vendor/angular-material-event-calendar/dist/angular-material-event-calendar.min.css">
+
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body ng-app="App" ng-controller="AppController" ng-cloak>
+
+<div class="main" layout="column">
+
+    <div layout="row" flex>
+        <div layout="column" flex>
+            <div class="top-bg md-accent-bg"></div>
+            <!--=========================== TOP BAR ==================================-->
+            <md-toolbar class="transparent" ng-include src="'/layout/top-bar.html'"></md-toolbar>
+
+            <md-content layout="row" layout-align="center center" class="transparent" flex
+                        ng-controller="ChatController">
+
+
+                <!--=========================== CONTENT ==================================-->
+                <div flex="80" flex-xs="95" layout="row">
+                    <div flex layout="column">
+                        <div layout="row">
+
+                            <div class="search-header" md-whiteframe="4" flex layout="row"
+                                 layout-align="start center">
+                                <md-button class="md-icon-button" ng-click="toggleRooms()">
+                                    <md-icon>menu</md-icon>
+                                </md-button>
+
+                                <input type="text"
+                                       ng-model="search"
+                                       placeholder="Search for a task or tag"
+                                       class="flex ng-touched ng-not-empty ng-dirty ng-valid-parse"
+                                       aria-invalid="false">
+                            </div>
+                        </div>
+
+                        <div flex layout="row" md-whiteframe="10">
+                            <div flex layout="column">
+                                <div layout="row" layout-xs="column" layout-align="center center"
+                                     class="header-content">
+                                    <md-button class="md-icon-button"
+                                               ng-click="openAddRoom($event, users, departaments, _companies)">
+                                        <md-icon>add</md-icon>
+                                    </md-button>
+                                    <div flex></div>
+                                    <p ng-if="_rooms[selectedRoom].title">{{_rooms[selectedRoom].title}}</p>
+                                    <p ng-if="_users[selectedRoom].title">{{_users[selectedRoom].title}}</p>
+                                    <p ng-if="_tasks[selectedRoom].title">{{_tasks[selectedRoom].title}}</p>
+                                    <md-menu ng-if="selectedRoom != '' && !_users[selectedRoom]">
+                                        <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+                                            <md-icon>person</md-icon>
+                                        </md-button>
+                                        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+                                            <md-menu-item ng-if="_rooms[selectedRoom]" ng-repeat="user in _rooms[selectedRoom].users">
+                                                <md-button ng-click="null">
+                                                    <md-icon md-menu-align-target>person</md-icon>
+                                                    {{_users[user].title}}
+                                                </md-button>
+                                            </md-menu-item>
+
+                                            <md-menu-item ng-if="_tasks[selectedRoom]"
+                                                          ng-repeat="user in _tasks[selectedRoom].task_for">
+                                                <md-button ng-click="null">
+                                                    <md-icon md-menu-align-target>person</md-icon>
+                                                    {{_users[user].title}}
+                                                </md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu>
+                                </div>
+                                <div flex layout="row">
+                                    <md-sidenav
+                                            class="md-sidenav-left"
+                                            md-component-id="rooms"
+                                            md-disable-backdrop
+                                            md-is-locked-open="$mdMedia('gt-sm')">
+
+                                        <md-content>
+                                            <section ng-if="reloadRooms">
+                                                <md-subheader class="md-primary"><md-icon>folder</md-icon> GROUPS
+                                                </md-subheader>
+                                                <md-list>
+                                                    <md-list-item class="md-3-line"
+                                                                  ng-click="filterMessagesChange(room.id)"
+                                                                  ng-repeat="room in rooms | filter: search">
+                                                        <img ng-src="http://fakeimg.pl/300/" class="md-avatar"
+                                                             alt="{{room.title}}">
+                                                        <div class="md-list-item-text">
+                                                            <h3>{{room.title}}</h3>
+                                                            <h4>{{room.title}}</h4>
+                                                            <p>
+                                                                {{room.title}}
+                                                            </p>
+                                                        </div>
+                                                    </md-list-item>
+                                                </md-list>
+                                                <md-subheader class="md-primary"><md-icon>view_list</md-icon> TASKS
+                                                </md-subheader>
+                                                <md-list>
+                                                    <md-list-item class="md-3-line"
+                                                                  ng-click="filterMessagesChange(task.id)"
+                                                                  ng-repeat="task in tasks | filter: search">
+                                                        <img ng-src="http://fakeimg.pl/300/" class="md-avatar"
+                                                             alt="{{task.title}}">
+                                                        <div class="md-list-item-text">
+                                                            <h3>{{task.title}}</h3>
+                                                            <p>
+                                                                {{task.title}}
+                                                            </p>
+                                                        </div>
+                                                    </md-list-item>
+                                                </md-list>
+                                                <md-subheader class="md-primary"><md-icon>person</md-icon> USERS
+                                                </md-subheader>
+                                                <md-list>
+                                                    <md-list-item class="md-3-line"
+                                                                  ng-click="filterMessagesChange(user.id)"
+                                                                  ng-repeat="user in users | filter: search">
+                                                        <img ng-src="http://fakeimg.pl/300/" class="md-avatar"
+                                                             alt="{{user.title}}">
+                                                        <div class="md-list-item-text">
+                                                            <h3>{{user.title}}</h3>
+                                                            <h4>{{_departaments[user.departament].title}}</h4>
+                                                            <p>
+                                                                {{user.title}}
+                                                            </p>
+                                                        </div>
+                                                    </md-list-item>
+                                                </md-list>
+                                            </section>
+
+                                        </md-content>
+
+                                    </md-sidenav>
+
+                                    <md-content flex
+                                                layout="column"
+                                                class="chat-bg">
+                                        <div flex style="overflow-y: scroll" ng-if="selectedRoom != ''">
+                                            <md-list>
+                                                <md-list-item
+                                                        layout-margin
+                                                        set-focus="$last" tabindex="0"
+                                                        class="bubble md-3-line"
+                                                        ng-class="{'my_message': message.user == myId}"
+                                                        ng-repeat="message in messages | filter: {room: selectedRoom} | orderBy: 'date'">
+
+                                                    <div class="md-list-item-text" layout="column">
+                                                        <h5>{{ message.text }}</h5>
+                                                        <h4>{{ _users[message.user].title }}</h4>
+                                                        <p>{{ message.date | date: 'medium' }}</p>
+                                                    </div>
+                                                    <md-menu ng-if="message.files.length > 0">
+                                                        <md-button class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+                                                            <md-icon>insert_drive_file</md-icon>
+                                                        </md-button>
+                                                        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+                                                            <md-menu-item ng-repeat="file in message.files">
+                                                                <md-button ng-src="{{file.filename}}">
+                                                                    <md-icon md-menu-align-target>insert_drive_file</md-icon>
+                                                                    {{file.filename}}
+                                                                </md-button>
+                                                            </md-menu-item>
+                                                        </md-menu-content>
+                                                    </md-menu>
+
+                                                    <md-button ng-if="message.user == myId" class="md-icon-button"
+                                                               ng-click="deleteMessage(message.id)">
+                                                        <md-icon>delete</md-icon>
+                                                    </md-button>
+
+                                                </md-list-item>
+                                            </md-list>
+                                        </div>
+
+
+                                        <form layout="column" class="send-form" layout-padding
+                                              ng-show="selectedRoom != ''"
+                                              ng-submit="sendMessage(sendMessageForm, selectedRoom, text, files)"
+                                              name="sendMessageForm"
+                                              novalidate>
+                                            <div layout="row" layout-align="center center">
+                                                <div>
+                                                    <label for="file">
+                                                        <md-icon>attach_file</md-icon>
+                                                        <input type="file" ng-hide="true" name="file" id="file" ng-model="files" multiple base-sixty-four-input>
+                                                    </label>
+                                                </div>
+                                                <md-input-container flex class="send-field">
+                                                    <label>Write...</label>
+                                                    <input type="text" name="text" ng-model="text" required>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div layout="row">
+                                                <md-button class="md-block" ng-click="removeFile($index)" ng-repeat="item in files">
+                                                    {{item.filename}}
+                                                    <md-icon>close</md-icon>
+                                                </md-button>
+                                            </div>
+                                        </form>
+
+                                    </md-content>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+        </div>
+    </div>
+</div>
+
+
+<script src="vendor/angular/angular.min.js"></script>
+<script src="vendor/angular-route/angular-route.min.js"></script>
+<script src="vendor/angular-aria/angular-aria.min.js"></script>
+<script src="vendor/angular-animate/angular-animate.min.js"></script>
+<script src="vendor/angular-messages/angular-messages.min.js"></script>
+<script src="vendor/angular-material/angular-material.min.js"></script>
+<script src="vendor/moment/moment.js"></script>
+<script src="vendor/angular-moment/angular-moment.min.js"></script>
+<script src="vendor/angular-filter/dist/angular-filter.min.js"></script>
+<script src="vendor/ngDraggable/ngDraggable.js"></script>
+<script src="vendor/underscore/underscore-min.js"></script>
+<script src="vendor/angular-underscore-module/angular-underscore-module.js"></script>
+<script src="vendor/angular-material-event-calendar/dist/angular-material-event-calendar.min.js"></script>
+<script src="vendor/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+
+
+<script src="modules.js"></script>
+
+
+<script src="services/CorporationsService.js"></script>
+<script src="services/CompaniesService.js"></script>
+<script src="services/DepartamentsService.js"></script>
+<script src="services/UsersService.js"></script>
+<script src="services/TagsService.js"></script>
+<script src="services/TasksService.js"></script>
+<script src="services/Rooms.js"></script>
+<script src="services/MessagesService.js"></script>
+
+<script src="controllers/AppController.js"></script>
+<script src="controllers/TasksController.js"></script>
+<script src="controllers/TaskController.js"></script>
+<script src="controllers/ChatController.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<md-button ng-click="null"
+           layout="row"
+           layout-align="center center"
+           layout-xs="column"
+           layout-align-xs="start start"
+           ng-dblclick="showTask($event, task)">
+
+
+
+
+    <md-menu md-position-mode="target-right target">
+
+        <md-button aria-label="Refactor tag in task" class="md-icon-button"
+                   ng-click="$mdMenu.open()">
+            <md-icon md-font-icon="icon-label"
+                     class="s16"
+                     md-colors="::{'color': 'altTheme-{{_tags[task.tag].color ? _tags[task.tag].color : 'grey'}}-700-{{task.tag.length ? '1': '0.05'}}'}"
+                     aria-hidden="true">
+                bookmark
+            </md-icon>
+            <md-tooltip>
+                {{_tags[task.tag].name ? _tags[task.tag].name : 'add tag'}}
+            </md-tooltip>
+        </md-button>
+
+
+        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+            <md-menu-item ng-repeat="tag in tags">
+                <md-button ng-click="refactorTask(task.id, 'tag', tag.id)">
+                    <md-icon md-menu-align-target md-colors="::{'color': 'altTheme-{{tag.color}}-700'}">bookmark
+                    </md-icon>
+                    {{tag.name}}
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+
+
+
+
+    <md-icon
+            ng-click="refactorTask(task.id, 'starred', !task.starred)"
+            layout-margin
+            md-colors="::{color: 'altTheme-yellow-700-{{task.starred == true ? '1': '0.05'}}'}">
+        star
+        <md-tooltip>
+            {{task.starred ? 'Remove star': 'Add star'}}
+        </md-tooltip>
+    </md-icon>
+
+
+    <md-icon layout-margin md-colors="::{color: 'altTheme-red-700'}">
+        {{task.important ? 'error': ''}}
+        <md-tooltip ng-if="task.important">
+            Important task
+        </md-tooltip>
+    </md-icon>
+
+
+    <div class="md-subhead" flex-xs="50"
+         ng-style="{'text-decoration': task.completed || task.failed ? 'line-through' : 'none'}">
+        {{task.title.length < 50 ? task.title : (task.title | limitTo:
+        50) + '...'}}
+    </div>
+
+    <span flex></span>
+
+    <div class="md-caption" ng-if="!task.completed && !task.failed">
+        <md-icon>access_time</md-icon>
+        {{ task.date_end | amDifference : time_now : 'days'}} days
+        {{ (task.date_end | amDifference : time_now) | date: 'hh:mm:ss' }}
+        left
+    </div>
+
+    <md-icon ng-if="task.completed" layout-margin
+             md-colors="::{color: 'altTheme-green-700'}">
+        check_circle
+        <md-tooltip>
+            Completed
+        </md-tooltip>
+    </md-icon>
+
+    <md-icon ng-if="task.failed" layout-margin
+             md-colors="::{color: 'altTheme-red-700'}">
+        remove_circle
+        <md-tooltip>
+            Failed
+        </md-tooltip>
+    </md-icon>
+
+
+    <md-menu md-position-mode="target-right target">
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button"
+                   ng-click="$mdMenu.open()">
+            <md-icon>more_vert</md-icon>
+        </md-button>
+
+
+        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+            <md-menu-item>
+                <md-button ng-click="showTask($event, task)">
+                    <md-icon md-menu-align-target>visibility</md-icon>
+                    Show task
+                </md-button>
+            </md-menu-item>
+
+            <md-menu-item>
+                <md-button ng-click="null">
+                    <md-icon md-menu-align-target>check_circle</md-icon>
+                    Mark as done
+                </md-button>
+            </md-menu-item>
+
+
+            <md-menu-item>
+                <md-button ng-click="refactorTask(task.id, 'starred', !task.starred)">
+                    <md-icon md-menu-align-target>star</md-icon>
+                    {{task.starred == true ? 'Remove star': 'Add star'}}
+                </md-button>
+            </md-menu-item>
+
+            <md-menu-item ng-if="task.tag.length > 0">
+                <md-button ng-click="refactorTask(task.id, 'tag', '')">
+                    <md-icon md-menu-align-target>bookmark</md-icon>
+                    Remove tag
+                </md-button>
+            </md-menu-item>
+
+
+            <md-menu-item>
+                <md-button ng-click="openTaskChat(task.id)">
+                    <md-icon md-menu-align-target>message</md-icon>
+                    Chat
+                </md-button>
+            </md-menu-item>
+
+            <md-divider></md-divider>
+            <md-menu-item>
+                <md-button ng-click="null">
+                    <md-icon md-menu-align-target>account_circle</md-icon>
+                    from {{task.from}}
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+
+    <md-divider ng-if="!$last"></md-divider>
+</md-button>

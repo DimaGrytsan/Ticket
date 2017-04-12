@@ -1,0 +1,55 @@
+<div flex layout="row">
+    <div flex layout="row" layout-align="start center">
+        <md-button class="md-icon-button" ng-href="/contacts.html">
+            <md-icon>account_box</md-icon>
+            <md-tooltip>
+                Contacts
+            </md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" ng-href="/chat.html">
+            <md-icon>chat</md-icon>
+            <md-tooltip>
+                Chat
+            </md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" ng-href="/ticket.html">
+            <md-icon>view_list</md-icon>
+            <md-tooltip>
+                Tasks
+            </md-tooltip>
+        </md-button>
+    </div>
+    <div flex layout="row" layout-align="end center">
+        <div>
+            <md-button class="md-icon-button" ng-click="openCalendar($event)">
+                <md-icon>today</md-icon>
+                <md-tooltip>
+                    Calendar
+                </md-tooltip>
+            </md-button>
+        </div>
+        <div>
+            <md-menu>
+                <md-button aria-label="Open menu with custom trigger" class="md-icon-button"
+                           ng-mouseenter="$mdMenu.open()">
+                    <md-icon>account_circle</md-icon>
+                </md-button>
+                <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+                    <md-menu-item>
+                        <md-button ng-click="ctrl.openMenu($mdMenu, $event)">
+                            <md-icon md-menu-align-target>person</md-icon>
+                            My profile
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
+                    <md-menu-item>
+                        <md-button ng-click="null">
+                            <md-icon md-menu-align-target>exit_to_app</md-icon>
+                            Logout
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+:focus {
+    outline: none;
+}
+input {
+    border: none;
+}
+.main {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+.content {
+
+    position: relative;
+    z-index: 2;
+}
+.toolbar-custom {
+    background-color: rgb(3,155,229) !important;
+}
+@media screen and (min-width: 1280px){
+    .content {
+        margin-right: 25px;
+    }
+}
+.md-sidenav-left {
+    max-width: 280px;
+    position: relative;
+    z-index: 1;
+}
+.search-header {
+    height: 56px;
+    line-height: 56px;
+    padding: 18px;
+    background: #FFF;
+    margin-bottom: 40px;
+}
+.search-header input {
+    padding-left: 10px;
+}
+.header-content {
+    background-color: #ffffff;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.transparent {
+    background-color: transparent !important;
+}
+
+.top-bg {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    color: #ffffff;
+    right: 0;
+    left: 0;
+    height: 200px;
+    background-image: url('/img/header-bg.png');
+    background-size: cover;
+    background-color: rgb(3,155,229);
+    color: rgba(255,255,255,1);
+}
+
+.top-bg md-icon {
+    color: #ffffff;
+}
+.top-sidenav {
+    height: 136px;
+    min-height: 136px;
+    max-height: 136px;
+    padding: 24px;
+}
+
+.dragging {
+    position: relative;
+}
+.drag-enter {
+    background-color: rgba(158,158,158,0.2);
+}
+
+.time-date.vertical > .display > .content {
+    height: 100%;
+    padding: 0 !important;
+}
+
+.time-date {
+    font-size: 14px !important;
+}
+
+md-event-calendar._md.md-primary md-event-calendar-header {
+    color: rgb(245,245,245);
+
+    background-size: 100% auto;
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.28);
+
+    padding: 20px;
+    background-blend-mode: overlay;
+    padding-bottom: 16px;
+    background-image: url(/img/april.jpg);
+}
+.chat-bg {
+    background: linear-gradient(to bottom,rgba(255,255,255,.8) 0,rgba(255,255,255,.6) 20%,rgba(255,255,255,.8)), url(/img/chat-bg.png);
+}
+.bubble {
+
+    background-color: #E8F5E9;
+    border: 1px solid #DFEBE0;
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    width: 65%;
+    position: relative;
+    padding: 6px 7px 8px 9px;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+    border-radius: 6px;
+}
+.my_message {
+    margin-left: auto;
+    background-color: #fff;
+}
+.send-field {
+    margin-bottom: 0;
+}
+.send-form {
+    background-color: #fff;
+}

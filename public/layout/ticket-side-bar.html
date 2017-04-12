@@ -1,0 +1,80 @@
+<!--md-whiteframe="0"-->
+<div class="top-sidenav" layout="column" layout-align="space-between">
+    <h4 class="md-title">GS {{titlePage}}</h4>
+</div>
+<md-content flex layout="column" class="transparent">
+    <md-button class="md-raised md-accent" ng-click="openAddTask($event)" id="openAddTask">ADD TASK</md-button>
+    <md-list flex>
+        <md-list-item ng-click="filterChange('all')">
+            <md-icon md-colors="{color: activeFilter == 'all'? 'blue': ''}">list</md-icon>
+            <p>All tasks</p>
+        </md-list-item>
+
+        <md-subheader>Filters</md-subheader>
+        <md-list-item ng-click="filterChange('active')">
+            <md-icon md-colors="{color: activeFilter == 'active'? 'altTheme-pink-600': ''}">timelapse</md-icon>
+            <p>Active</p>
+        </md-list-item>
+        <md-list-item ng-click="filterChange('completed')"
+                      ng-drop="true"
+                      ng-drop-success="refactorTask($data, 'completed', true)">
+            <md-icon md-colors="{color: activeFilter == 'completed'? 'altTheme-green-600': ''}">check_circle</md-icon>
+            <p>Completed</p>
+        </md-list-item>
+        <md-list-item ng-click="filterChange('starred')"
+                      ng-drop="true"
+                      ng-drop-success="refactorTask($data, 'starred', true)">
+            <md-icon md-colors="{color: activeFilter == 'starred'? 'altTheme-yellow-600': ''}">start</md-icon>
+            <p>Starred</p>
+        </md-list-item >
+        <md-list-item ng-click="filterChange('important')"
+                      ng-drop="true"
+                      ng-drop-success="refactorTask($data, 'important', true)">
+            <md-icon md-colors="{color: activeFilter == 'important'? 'altTheme-red-600': ''}" >error</md-icon>
+            <p>Important</p>
+        </md-list-item>
+        <md-list-item ng-click="filterChange('today')">
+            <md-icon md-colors="{color: activeFilter == 'today'? 'altTheme-orange-700': ''}">today</md-icon>
+            <p>Today</p>
+        </md-list-item>
+        <md-list-item ng-click="filterChange('failed')">
+            <md-icon md-colors="{color: activeFilter == 'failed'? 'altTheme-red-700': ''}">remove_circle</md-icon>
+            <p>Failed</p>
+        </md-list-item>
+        <!--<md-divider></md-divider>-->
+
+        <md-subheader>Tags</md-subheader>
+        <md-list-item
+                      ng-repeat="tag in tags"
+                      ng-mouseenter="showRenameTag = true"
+                      ng-mouseleave="showRenameTag = false"
+                      ng-click="filterChange('tag', tag.id)"
+                      ng-drop="true"
+                      ng-drop-success="refactorTask($data, 'tag', tag.id)">
+            <md-icon md-font-icon="icon-label"
+                     class="s16"
+                     md-colors="::{'color': 'altTheme-{{tag.color}}-700'}"
+                     aria-hidden="true">bookmark
+            </md-icon>
+            <p>{{tag.name.length > 30 ? (tag.name | limitTo: 30) + '...' : tag.name}}</p>
+            <span flex></span>
+            <md-button
+                    class="md-icon-button"
+                    ng-show="showRenameTag"
+                    ng-click="deleteTag(tag)">
+                <md-icon>delete</md-icon>
+            </md-button>
+        </md-list-item>
+
+
+        <md-list-item ng-click="openAddTag($event)" id="add-tags">
+            <md-icon md-font-icon="icon-label"
+                     class="s16"
+                     md-colors="{color: 'blue'}"
+                     aria-hidden="true">add
+            </md-icon>
+            <p>Add tag</p>
+        </md-list-item>
+
+    </md-list>
+</md-content>
